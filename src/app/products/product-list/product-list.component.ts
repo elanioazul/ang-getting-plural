@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IProduct } from 'src/app/interfaces/product';
 @Component({
   selector: 'pm-product-list',
   templateUrl: './product-list.component.html',
@@ -7,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class ProductListComponent implements OnInit {
 
   pageTitle = `Product List`;
-  listFilter: any = 'eas';
-  products: Array<any> = [
+  listFilter = 'carrito';
+  products: Array<IProduct> = [
     {
       "productId": 1,
       "productName": "Leaf Rake",

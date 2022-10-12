@@ -10,8 +10,8 @@ export class ProductListComponent implements OnInit {
 
   pageTitle = `Product List`;
   products: Array<IProduct> = myData;
+  filteredProducts: Array<IProduct> = [];
   showImage: boolean = false;
-  filteredProducts: any;
   imageWidth = 50;
   imageMargin = 2;
   errorMessage: string = 'ee';
@@ -22,17 +22,22 @@ export class ProductListComponent implements OnInit {
   }
   set listFilter(val: string) {
     this._listFilter = val;
-    console.log('In settter', val)
+    this.filteredProducts = this.performFilter(val);
   }
 
   constructor() { }
 
   ngOnInit(): void {
-    this.listFilter = 'carrito'
+    this.listFilter = '';
   }
 
   toggleImage(): void {
     this.showImage = !this.showImage;
+  }
+
+  performFilter(filterBy: string): IProduct[] {
+    filterBy = filterBy.toLowerCase();
+    return this.products.filter((product: IProduct) => product.productName.includes(filterBy));
   }
 
 }

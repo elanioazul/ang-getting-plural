@@ -30,7 +30,7 @@ export class ProductListComponent implements OnInit {
       "imageUrl": "../../assets/images/garden_cart.png"
     }
   ];
-  showImage: boolean = true;
+  showImage: boolean = false;
   filteredProducts: any;
   imageWidth = 50;
   imageMargin = 2;
@@ -40,8 +40,9 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  toggleImage(): void {
 
+  toggleImage(): void {
+    this.showImage = !this.showImage;
   }
 
 }

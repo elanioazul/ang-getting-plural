@@ -9,7 +9,6 @@ import myData from '../../../api/products/products.json';
 export class ProductListComponent implements OnInit {
 
   pageTitle = `Product List`;
-  listFilter = 'carrito';
   products: Array<IProduct> = myData;
   showImage: boolean = false;
   filteredProducts: any;
@@ -17,9 +16,19 @@ export class ProductListComponent implements OnInit {
   imageMargin = 2;
   errorMessage: string = 'ee';
 
+  private _listFilter = '';
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(val: string) {
+    this._listFilter = val;
+    console.log('In settter', val)
+  }
+
   constructor() { }
 
   ngOnInit(): void {
+    this.listFilter = 'carrito'
   }
 
   toggleImage(): void {

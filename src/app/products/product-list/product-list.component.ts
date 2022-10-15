@@ -5,7 +5,6 @@ import { IProduct } from 'src/app/interfaces/product';
 import myData from '../../../api/products/products.json';
 import { ProductServiceService } from '../../shared/services/product-service.service';
 @Component({
-  selector: 'pm-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })

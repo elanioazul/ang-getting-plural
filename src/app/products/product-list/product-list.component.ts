@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { IProduct } from 'src/app/interfaces/product';
 import myData from '../../../api/products/products.json';
 import { ProductServiceService } from '../../shared/services/product-service.service';
@@ -7,7 +8,7 @@ import { ProductServiceService } from '../../shared/services/product-service.ser
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
 
   pageTitle = `Product List`;
   products: Array<IProduct> = [];
@@ -16,6 +17,8 @@ export class ProductListComponent implements OnInit {
   imageWidth = 50;
   imageMargin = 2;
   errorMessage: string = '';
+
+  sub!: Subscription | undefined;
 
   private _listFilter = '';
   get listFilter(): string {
@@ -30,7 +33,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe({
+    this.sub = this.productService.getProducts().subscribe({
       next: products => {
         this.products = products;
         this.filteredProducts = this.products;
@@ -51,6 +54,10 @@ export class ProductListComponent implements OnInit {
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLowerCase();
     return this.products.filter((product: IProduct) => product.productName.includes(filterBy));
+  }
+
+  ngOnDestroy(): void {
+      this.sub?.unsubscribe();
   }
 
 }

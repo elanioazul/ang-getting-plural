@@ -11,10 +11,15 @@ import { StarComponent } from './shared/star/star.component';
 import { WelcomeComponent } from './home/welcome/welcome.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { PageNotfoundComponent } from './shared/page-notfound/page-notfound.component';
+import { ProductDetailGuard } from './shared/product-detail.guard';
 
 const routes: Routes = [
   { path: 'products', component: ProductListComponent },
-  { path: 'products/:id', component: ProductDetailComponent },
+  { 
+    path: 'products/:id', 
+    canActivate: [ProductDetailGuard],
+    component: ProductDetailComponent 
+  },
   { path: 'welcome', component: WelcomeComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { path: '**', component: PageNotfoundComponent }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from 'src/app/interfaces/product';
 import myData from '../../../api/products/products.json';
+import { ProductServiceService } from '../../shared/services/product-service.service';
 @Component({
   selector: 'pm-product-list',
   templateUrl: './product-list.component.html',
@@ -9,7 +10,7 @@ import myData from '../../../api/products/products.json';
 export class ProductListComponent implements OnInit {
 
   pageTitle = `Product List`;
-  products: Array<IProduct> = myData;
+  products: Array<IProduct> = [];
   filteredProducts: Array<IProduct> = [];
   showImage: boolean = false;
   imageWidth = 50;
@@ -25,9 +26,12 @@ export class ProductListComponent implements OnInit {
     this.filteredProducts = this.performFilter(val);
   }
 
-  constructor() { }
+  constructor(private productService: ProductServiceService) { 
+  }
 
   ngOnInit(): void {
+    this.products = this.productService.getProducts();
+    this.filteredProducts = this.products;
     this.listFilter = '';
   }
 

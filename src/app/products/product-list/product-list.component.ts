@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { IProduct } from 'src/app/interfaces/product';
 import myData from '../../../api/products/products.json';
 import { ProductServiceService } from '../../shared/services/product-service.service';
@@ -18,7 +19,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   imageMargin = 2;
   errorMessage: string = '';
 
-  sub!: Subscription | undefined;
+  //sub!: Subscription | undefined;
+  private unSubscribe = new Subject<void>();
 
   private _listFilter = '';
   get listFilter(): string {
@@ -33,7 +35,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.productService.getProducts().subscribe({
+    this.productService.getProducts().pipe(takeUntil(this.unSubscribe)).subscribe({
       next: products => {
         this.products = products;
         this.filteredProducts = this.products;
@@ -57,7 +59,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.sub?.unsubscribe();
+      //this.sub?.unsubscribe();
+      this.unSubscribe.next();
+      this.unSubscribe.complete();
   }
 
 }
